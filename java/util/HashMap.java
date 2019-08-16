@@ -623,8 +623,13 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * <tt>null</tt> if there was no mapping for <tt>key</tt>.
      * (A <tt>null</tt> return can also indicate that the map
      * previously associated <tt>null</tt> with <tt>key</tt>.)
+     * HashMap源码分析之-put()方法分析
      */
     public V put(K key, V value) {
+        // 先调用hash()方法，获取到key的hash
+        // 在调用putVal()方法，
+        // onlyIfAbsent : 仅仅在key不存在的时候插入值
+        // evict :
         return putVal(hash(key), key, value, false, true);
     }
 
