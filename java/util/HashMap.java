@@ -341,10 +341,17 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * cheapest possible way to reduce systematic lossage, as well as
      * to incorporate impact of the highest bits that would otherwise
      * never be used in index calculations because of table bounds.
+     * hash函数分析
+     * 先获取key的hashcode -> h,
+     * 在计算  h >>> 16 -> hr
+     * 最后 h ^ hr, 做个异或运算，得到hash
      */
     static final int hash(Object key) {
-        int h;
-        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+        if (key == null){
+            return 0;
+        }
+        int h = key.hashCode();
+        return  h ^ (h >>> 16);
     }
 
     /**
