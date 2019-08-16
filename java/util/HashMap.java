@@ -637,6 +637,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * @param onlyIfAbsent if true, don't change existing value
      * @param evict        if false, the table is in creation mode.
      * @return previous value, or null if none
+     * HashMap源码分析之-putVal()方法分析
      */
     final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                    boolean evict) {
