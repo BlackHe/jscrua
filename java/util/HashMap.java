@@ -341,6 +341,8 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * cheapest possible way to reduce systematic lossage, as well as
      * to incorporate impact of the highest bits that would otherwise
      * never be used in index calculations because of table bounds.
+     *
+     *
      * hash函数分析
      * 先获取key的hashcode -> h,
      * 在计算  h >>> 16 -> hr
@@ -637,7 +639,8 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         // 在调用putVal()方法，
         // onlyIfAbsent : 仅仅在key不存在的时候插入值
         // evict :
-        return putVal(hash(key), key, value, false, true);
+        int hash = hash(key);
+        return putVal(hash, key, value, false, true);
     }
 
     /**
@@ -651,8 +654,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * @return previous value, or null if none
      * HashMap源码分析之-putVal()方法分析
      */
-    final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
-                   boolean evict) {
+    final V putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict) {
         Node<K, V>[] tab = table;
         Node<K, V> p; //key 要put到数组的位置上的元素，可能有值，也可能没有值
         int n = tab.length;
