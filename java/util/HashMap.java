@@ -671,9 +671,8 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         // 如果当前位置上没有值，即当前元素值=null,则直接在数组当前位置赋值，新建一个Node类型的元素，进行赋值
         if (p == null) {
             tab[i] = newNode(hash, key, value, null);
-        }
-        // 如果当前位置的元素有值，则
-        else {
+        }else {
+            // 如果当前位置的元素有值，则
             Node<K, V> e;
             K k = p.key;
             // 判断数组当前位置上元素的key是否跟 本次要put的key相同（判断相同的条件1，key的hash相同，2，==或者equals）
@@ -685,10 +684,9 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                 //如果当前位置的元素是树类型，则用树的插值方法进行插值
                 // 数组当前元素强转为树类型
                 e = ((TreeNode<K, V>) p).putTreeVal(this, tab, hash, key, value);
-            }
-            // 剩下等情况肯定为：数组该位置的元素肯定不是红黑树，而是链表，且链表的第一个元素跟当前要put的key不相等，
-            // 因此，就要通过遍历链表每个元素的next节点，判断每个节点的key是否跟本次要put的key是否相等
-            else {
+            }else {
+                // 剩下的情况肯定为：数组该位置的元素肯定不是红黑树，而是链表，且链表的第一个元素跟当前要put的key不相等，
+                // 因此，就要通过遍历链表每个元素的next节点，判断每个节点的key是否跟本次要put的key是否相等
                 for (int binCount = 0; ; ++binCount) {
                     // e赋值为当前位置元素的下一个元素
                     e = p.next;
@@ -747,24 +745,34 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * with a power of two offset in the new table.
      *
      * @return the table
+     *
+     * HashMap初始化，或已容量翻倍的方式扩容
      */
     final Node<K, V>[] resize() {
+        // 记录原数组
         Node<K, V>[] oldTab = table;
+        // 记录原数组的长度
         int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        // 记录原threshold
         int oldThr = threshold;
         int newCap, newThr = 0;
+        // 如果已被初始化
         if (oldCap > 0) {
+            // 如果原容量达到了最大限定值 1<<30 即2^30,1073741824
             if (oldCap >= MAXIMUM_CAPACITY) {
+                // 将threshold设置为最大整数 2147483647
                 threshold = Integer.MAX_VALUE;
+                // 返回原数组
                 return oldTab;
-            } else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                    oldCap >= DEFAULT_INITIAL_CAPACITY)
+            // 如果容量double后还没达到上限，并且原数组容量大于等于默认值16
+            } else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY && oldCap >= DEFAULT_INITIAL_CAPACITY)
+                // threshold左移一位，即double
                 newThr = oldThr << 1; // double threshold
         } else if (oldThr > 0) // initial capacity was placed in threshold
             newCap = oldThr;
         else {               // zero initial threshold signifies using defaults
-            newCap = DEFAULT_INITIAL_CAPACITY;
-            newThr = (int) (DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+            newCap = DEFAULT_INITIAL_CAPACITY;  //16
+            newThr = (int) (DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);    //12
         }
         if (newThr == 0) {
             float ft = (float) newCap * loadFactor;

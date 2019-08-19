@@ -594,7 +594,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     static final int MOVED     = -1; // hash for forwarding nodes
     static final int TREEBIN   = -2; // hash for roots of trees
     static final int RESERVED  = -3; // hash for transient reservations
-    static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash
+    static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash     // 2147483647
 
     /** Number of CPUS, to place bounds on some sizings */
     static final int NCPU = Runtime.getRuntime().availableProcessors();
@@ -1008,6 +1008,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
 
     /** Implementation for put and putIfAbsent */
     final V putVal(K key, V value, boolean onlyIfAbsent) {
+        // key 和 value 都不能为null，否则直接抛出NPE
         if (key == null || value == null) throw new NullPointerException();
         // 第一次做哈希运算
         int hash = spread(key.hashCode());
